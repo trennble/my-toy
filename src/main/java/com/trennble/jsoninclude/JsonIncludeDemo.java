@@ -1,4 +1,4 @@
-package com.trennble.web.jsoninclude;
+package com.trennble.jsoninclude;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
