@@ -1,8 +1,11 @@
 package com.trennble.web.validation;
 
+import lombok.Data;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+@Data
 public class Outer {
     @NotNull
     @Valid
@@ -10,19 +13,4 @@ public class Outer {
     @NotNull
     private Father beautiful;
 
-    public Father getHandsome() {
-        return handsome;
-    }
-
-    public void setHandsome(Father handsome) {
-        this.handsome = handsome;
-    }
-
-    public Father getBeautiful() {
-        return beautiful;
-    }
-
-    public void setBeautiful(Father beautiful) {
-        this.beautiful = beautiful;
-    }
 }
