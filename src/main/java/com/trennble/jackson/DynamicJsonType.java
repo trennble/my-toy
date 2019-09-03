@@ -30,6 +30,18 @@ public class DynamicJsonType {
         // InvalidTypeIdException: missing type id property '@class'
         Father fastFather = objectMapper.readValue(s, Father.class);
         assert !(fastFather instanceof Son);
+    }
+
+    /**
+     * todo 没有找到不使用@class直接反序列化子类
+     * 直接反序列化指定的子类
+     * @throws IOException
+     */
+    @Test
+    public void deserializeWithoutId() throws IOException {
+
+        ObjectMapper objectMapper=new ObjectMapper();
+        Son son = objectMapper.readValue("{\"name\":\"hello\"}", Son.class);
 
     }
 }
