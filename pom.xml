@@ -32,6 +32,14 @@
     </dependencyManagement>
 
     <dependencies>
+
+        <!--jmh-->
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-core</artifactId>
+            <version>1.21</version>
+        </dependency>
+
         <!--web-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
