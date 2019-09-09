@@ -17,8 +17,8 @@ public class Generic {
 
     public void testSub(Collection<? extends Base> para){
         // 编译不通过
-        para.add(new Sub());
-        para.add(new Base());
+        // para.add(new Sub());
+        // para.add(new Base());
     }
 
     public <T> void test(Collection<T> collection){
@@ -28,7 +28,7 @@ public class Generic {
 
     public void testSuper(Collection<? super Sub> para){
         para.add(new Sub());// 编译通过
-        para.add(new Base());// 编译不通过
+        // para.add(new Base());// 编译不通过
     }
 
 
