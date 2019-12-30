@@ -33,6 +33,13 @@
 
     <dependencies>
 
+        <!--quartz-->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
         <!--jmh-->
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
@@ -89,10 +96,13 @@
             <version>2.0.1.Final</version>
         </dependency>
 
+        <!--websocket-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
+
+        <!--validation-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
