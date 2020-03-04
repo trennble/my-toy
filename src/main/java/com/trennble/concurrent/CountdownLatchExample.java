@@ -28,6 +28,8 @@ public class CountdownLatchExample {
             countDownLatch.countDown();
         }
         System.out.println("main..");
+        // 等待已执行的任务结束，不接受新的任务，而且不等待提交的任务执行结束
         executorService.shutdown();
+        System.out.println("shutdown..");
     }
 }
