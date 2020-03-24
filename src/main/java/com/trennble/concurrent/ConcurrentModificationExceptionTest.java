@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * @ClasssName ConcurrentModificationExceptionTest
@@ -40,6 +41,38 @@ public class ConcurrentModificationExceptionTest {
                 myList.remove(value);
                 System.out.println("List.remove");
             }
+        }
+    }
+
+    @Test
+    public void testModify(){
+        List<String> arrayList1 = new ArrayList<String>();
+        arrayList1.add("1");
+        arrayList1.add("2");
+        try {
+            for (String s : arrayList1) {
+                if ("1".equals(s)) {
+                    arrayList1.remove(s);
+                }
+                System.out.println(s);
+            }
+        } catch (Exception e) {
+            System.out.println("list1 throws a exception");
+            e.printStackTrace();
+        }
+        List<String> arrayList2 = new ArrayList<String>();
+        arrayList2.add("2");
+        arrayList2.add("1");
+        try {
+            for (String s : arrayList2) {
+                if ("1".equals(s)) {
+                    arrayList2.remove(s);
+                }
+                System.out.println(s);
+            }
+        } catch (Exception e) {
+            System.out.println("list2 throws a exception");
+            e.printStackTrace();
         }
     }
 }
