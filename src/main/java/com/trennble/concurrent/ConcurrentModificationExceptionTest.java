@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 /**
  * @ClasssName ConcurrentModificationExceptionTest
- * @Description TODO
+ * @Description 测试对在循环中对list进行操作
  * @Author sycamore
  * @Date 2019-3-12 20:32
  * @Version 1.0
