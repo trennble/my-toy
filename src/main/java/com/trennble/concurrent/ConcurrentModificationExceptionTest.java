@@ -44,31 +44,47 @@ public class ConcurrentModificationExceptionTest {
         }
     }
 
+    /**
+     * arrayList1 只有一次循环，第一个数据被删除的时候，size会变成1，cursor也是1，所以会跳过
+     * public boolean hasNext() {
+     *    return cursor != size;
+     * }
+     *
+     * arraylist2 在第二次循环的时候，数据被删除，size变为1，cursor变为2，所以会进入下一次的next()操作
+     */
     @Test
     public void testModify(){
-        List<String> arrayList1 = new ArrayList<String>();
+        ArrayList<String> arrayList1 = new ArrayList<String>();
         arrayList1.add("1");
         arrayList1.add("2");
         try {
-            for (String s : arrayList1) {
+            Iterator<String> iterator = arrayList1.iterator();
+            while (iterator.hasNext()) {
+                System.out.println("list1 ready to read");
+                String s = iterator.next();
+                System.out.println("list1 read "+s);
                 if ("1".equals(s)) {
                     arrayList1.remove(s);
                 }
-                System.out.println(s);
+                System.out.println("list1 read complete");
             }
         } catch (Exception e) {
             System.out.println("list1 throws a exception");
             e.printStackTrace();
         }
-        List<String> arrayList2 = new ArrayList<String>();
+        ArrayList<String> arrayList2 = new ArrayList<String>();
         arrayList2.add("2");
         arrayList2.add("1");
         try {
-            for (String s : arrayList2) {
+            Iterator<String> iterator = arrayList2.iterator();
+            while (iterator.hasNext()) {
+                System.out.println("list2 ready to read");
+                String s = iterator.next();
+                System.out.println("list2 read "+s);
                 if ("1".equals(s)) {
                     arrayList2.remove(s);
                 }
-                System.out.println(s);
+                System.out.println("list2 read complete");
             }
         } catch (Exception e) {
             System.out.println("list2 throws a exception");
