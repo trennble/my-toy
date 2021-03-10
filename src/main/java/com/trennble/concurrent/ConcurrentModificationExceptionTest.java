@@ -23,6 +23,8 @@ public class ConcurrentModificationExceptionTest {
         myList.add("3");
         myList.add("4");
         myList.add("5");
+        myList.removeIf(s -> s.equals("2"));
+
         Iterator<String> it = myList.iterator();
 
         // java.util.ArrayList.Itr 创建的时候就把当前操作数modCount记录到expectedModCount了，并且不会去更新这个值

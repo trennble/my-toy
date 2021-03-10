@@ -20,7 +20,10 @@ public class CglibProxyTest implements MethodInterceptor {
 
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        return proxy.invokeSuper(obj, args);
+        System.out.println("before:"+this.getClass());
+        Object o = proxy.invokeSuper(obj, args);
+        System.out.println("after:"+this.getClass());
+        return o;
     }
 
 }

@@ -13,15 +13,16 @@ public class ProxyPerformanceTest {
     public static void main(String[] args) {
         ProxyPerformanceTest benchmark = new ProxyPerformanceTest();
         benchmark.setup();
-        benchmark.nativeTest();
-        benchmark.nativeTest();
-        benchmark.nativeTest();
+        benchmark.cglibProxy.test(1);
+        // benchmark.nativeTest();
+        // benchmark.nativeTest();
+        // benchmark.nativeTest();
     }
 
     @Setup
     public void setup() {
         nativeTest = new TargetImpl();
-        dynamicProxy = JdkDynamicProxyTest.newProxyInstance(nativeTest);
+        // dynamicProxy = JdkDynamicProxyTest.newProxyInstance(nativeTest);
         cglibProxy = CglibProxyTest.newProxyInstance(TargetImpl.class);
     }
 
