@@ -14,15 +14,22 @@ public class CglibProxyTest implements MethodInterceptor {
     public static <T extends Target> Target newProxyInstance(Class<T> targetInstanceClazz) {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(targetInstanceClazz);
-        enhancer.setCallback(new CglibProxyTest());
+        CglibProxyTest callback = new CglibProxyTest();
+        System.out.println("new obj" + callback);
+        enhancer.setCallback(callback);
         return (Target) enhancer.create();
     }
 
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        System.out.println("before:"+this.getClass());
+        System.out.println("invoke obj" + obj);
+        System.out.println("before:" + this.getClass());
+        System.out.println(obj.getClass());
+        System.out.println(args);
+        System.out.println(args.length);
+        System.out.println(args[0]);
         Object o = proxy.invokeSuper(obj, args);
-        System.out.println("after:"+this.getClass());
+        System.out.println("after:" + this.getClass());
         return o;
     }
 

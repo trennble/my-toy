@@ -2,6 +2,7 @@ package com.trennble.dynamicproxy;
 
 import org.openjdk.jmh.annotations.*;
 
+import java.lang.reflect.Proxy;
 import java.util.concurrent.TimeUnit;
 
 @State(Scope.Benchmark)
@@ -11,9 +12,20 @@ public class ProxyPerformanceTest {
     private Target cglibProxy;
 
     public static void main(String[] args) {
-        ProxyPerformanceTest benchmark = new ProxyPerformanceTest();
-        benchmark.setup();
-        benchmark.cglibProxy.test(1);
+        // ProxyPerformanceTest benchmark = new ProxyPerformanceTest();
+        // benchmark.setup();
+        TargetImpl target = new TargetImpl("123");
+        Target targetProxy = (Target) Proxy.newProxyInstance(JdkDynamicProxyTest.class.getClassLoader(),
+                new Class<?>[]{Target.class},
+                new JdkDynamicProxyTest(target));
+
+        ITarget iTarget = (ITarget) Proxy.newProxyInstance(JdkDynamicProxyTest.class.getClassLoader(),
+                new Class<?>[]{ITarget.class},
+                new JdkDynamicProxyTest(target));
+
+        targetProxy.test(1);
+        iTarget.test2();
+        // benchmark.cglibProxy.test(1);
         // benchmark.nativeTest();
         // benchmark.nativeTest();
         // benchmark.nativeTest();
@@ -21,8 +33,8 @@ public class ProxyPerformanceTest {
 
     @Setup
     public void setup() {
-        nativeTest = new TargetImpl();
-        // dynamicProxy = JdkDynamicProxyTest.newProxyInstance(nativeTest);
+        nativeTest = new TargetImpl("hello");
+        dynamicProxy = JdkDynamicProxyTest.newProxyInstance(nativeTest);
         cglibProxy = CglibProxyTest.newProxyInstance(TargetImpl.class);
     }
 

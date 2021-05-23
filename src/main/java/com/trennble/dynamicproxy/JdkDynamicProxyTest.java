@@ -6,21 +6,23 @@ import java.lang.reflect.Proxy;
 
 public class JdkDynamicProxyTest implements InvocationHandler {
 
-    private Target target;
+    private TargetImpl target;
 
-    private JdkDynamicProxyTest(Target target) {
+    public JdkDynamicProxyTest(TargetImpl target) {
         this.target = target;
     }
 
     public static Target newProxyInstance(Target target) {
-        return (Target) Proxy.newProxyInstance(JdkDynamicProxyTest.class.getClassLoader(),
-                new Class<?>[]{Target.class},
-                new JdkDynamicProxyTest(target));
+        return null;
+        // return (Target) Proxy.newProxyInstance(JdkDynamicProxyTest.class.getClassLoader(),
+        //         new Class<?>[]{Target.class},
+        //         new JdkDynamicProxyTest(target));
 
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        // System.out.println(proxy.getClass());
         return method.invoke(target, args);
     }
 }

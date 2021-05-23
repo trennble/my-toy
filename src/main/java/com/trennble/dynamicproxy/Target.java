@@ -1,9 +1,8 @@
 package com.trennble.dynamicproxy;
 
-public class Target {
+public interface Target {
 
-    int test(int i){
-        return i+2;
-    }
+
+    int test(int i);
 
 }
