@@ -1,0 +1,2 @@
+com.trennble.spi.MysqlDataBaseSPIImpl
+com.trennble.spi.OracleDataBaseSPIImpl
