@@ -10,8 +10,8 @@ public class MaximumEmployees_2127 {
     public static void main(String[] args) {
         MaximumEmployees_2127 main = new MaximumEmployees_2127();
         int[] param = {1,0,3,2,5,6,7,4,9,8,11,10,11,12,10};
-        main.maximumInvitations(param);
-        System.out.println();
+        int i = main.maximumInvitations(param);
+        System.out.println(i+"");
     }
 
     public int maximumInvitations(int[] favorite) {
@@ -58,7 +58,7 @@ public class MaximumEmployees_2127 {
             }
 
             if (ringSize == 2) {
-                sumChainSize = dfs(revers, i) + dfs(revers, favorite[i]);
+                sumChainSize += dfs(revers, i) + dfs(revers, favorite[i]);
             } else {
                 maxRingSize = Integer.max(maxRingSize, ringSize);
             }
