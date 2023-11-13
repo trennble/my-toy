@@ -7,6 +7,9 @@
     <groupId>com.trennble</groupId>
     <artifactId>my-toy</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <commons-collections4.version>4.4</commons-collections4.version>
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -32,6 +35,16 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${commons-collections4.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.1</version>
+        </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
