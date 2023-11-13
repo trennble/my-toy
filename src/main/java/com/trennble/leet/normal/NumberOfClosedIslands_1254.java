@@ -13,7 +13,6 @@ public class NumberOfClosedIslands_1254 {
                 {1, 0, 1, 1, 1, 0, 1},
                 {1, 0, 0, 0, 0, 0, 1},
                 {1, 1, 1, 1, 1, 1, 1}};
-//        System.out.println(main.closedIsland(grid));
         int[][] grid2 = {{0, 0, 1, 0, 0},
                 {0, 1, 0, 1, 0},
                 {0, 1, 1, 1, 0}};
@@ -38,24 +37,12 @@ public class NumberOfClosedIslands_1254 {
             for (int j = 1; j < row - 1; j++) {
                 int val = grid[i][j];
                 if (val == 0) {
-                    int[][] copy = copy(grid);
-                    boolean closed = dfs(j, i, copy);
+                    boolean closed = dfs(j, i, grid);
                     if (closed) {
-                        grid = copy;
                         ret++;
                     }
                 }
             }
-        }
-        return ret;
-    }
-
-    public int[][] copy(int[][] param) {
-        int len = param.length;
-        int row = param[0].length;
-        int[][] ret = new int[len][row];
-        for (int i = 0; i < param.length; i++) {
-            ret[i] = Arrays.copyOf(param[i], param[i].length);
         }
         return ret;
     }
@@ -71,9 +58,10 @@ public class NumberOfClosedIslands_1254 {
         if (x == 0 || y == 0 || x == row - 1 || y == len - 1) {
             return false;
         }
-        return dfs(x + 1, y, grid) &&
-                dfs(x, y + 1, grid) &&
-                dfs(x - 1, y, grid) &&
-                dfs(x, y - 1, grid);
+        boolean val1 = dfs(x + 1, y, grid);
+        boolean val2 = dfs(x, y + 1, grid);
+        boolean val3 = dfs(x - 1, y, grid);
+        boolean val4 = dfs(x, y - 1, grid);
+        return val1 && val2 && val3 && val4;
     }
 }
