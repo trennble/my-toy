@@ -34,59 +34,37 @@ public class FindCity_1334 {
     }
 
     public int findTheCity(int n, int[][] edges, int distanceThreshold) {
-        Map<Integer, Set<Integer>> map = new HashMap<>();
-        Set<Integer> city = new HashSet<>();
-        for (int i = 0; i < edges.length; i++) {
-            int[] edge = edges[i];
-            int from = edge[0];
-            Set<Integer> fromSet = map.computeIfAbsent(from, key -> new HashSet<>());
-            fromSet.add(i);
-            int to = edge[1];
-            Set<Integer> toSet = map.computeIfAbsent(to, key -> new HashSet<>());
-            toSet.add(i);
-            city.add(from);
-            city.add(to);
+        int[][] map = new int[n][n];
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(map[i], Integer.MAX_VALUE/2);
         }
-        for (int i = n-1; i >= 0; i--) {
-            if (!city.contains(i)) {
-                return i;
+        for(int[] edge : edges) {
+            map[edge[0]][edge[1]] = edge[2];
+            map[edge[1]][edge[0]] = edge[2];
+        }
+        for(int x = 0; x < n; x++) {
+            map[x][x] = 0;
+            for(int i = 0; i < n; i++) {
+                for(int j = 0; j < n; j++) {
+                    map[i][j] = Math.min(map[i][j], map[i][x] + map[x][j]);
+                }
             }
         }
 
-        int minCityNum = Integer.MAX_VALUE;
-        int maxCity = Integer.MIN_VALUE;
-        for (Integer i : city) {
-            HashSet<Integer> visited = new HashSet<>();
-            int cityNum = dfs(i, visited, edges, map, distanceThreshold, minCityNum);
-            if (cityNum < minCityNum) {
-                minCityNum = cityNum;
-                maxCity = i;
-            } else if (cityNum == minCityNum && i > maxCity) {
+        int minCount = Integer.MAX_VALUE;
+        int maxCity = 0;
+        for(int i = 0; i < n; i++) {
+            int cnt = 0;
+            for(int j = 0; j < n; j++) {
+                if(map[i][j] <= distanceThreshold) {
+                    cnt ++;
+                }
+            }
+            if(cnt <= minCount) {
+                minCount = cnt;
                 maxCity = i;
             }
         }
         return maxCity;
-    }
-
-    public int dfs(int city, HashSet<Integer> visited, int[][] edges, Map<Integer, Set<Integer>> map, int distance, int minCityNum) {
-        if (visited.contains(city) || distance < 0) {
-            return 0;
-        }
-        visited.add(city);
-        if (distance == 0) {
-            return 1;
-        }
-        int cityNum = 1;
-        visited.add(city);
-        Set<Integer> neighbor = map.get(city);
-        for (Integer i : neighbor) {
-            int[] edge = edges[i];
-            int weight = edge[2];
-            int x = edge[0];
-            int y = edge[1];
-            int nextCity = x == city ? y : x;
-            cityNum += dfs(nextCity, visited, edges, map, distance - weight, minCityNum);
-        }
-        return cityNum;
     }
 }
