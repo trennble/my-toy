@@ -10,52 +10,27 @@ public class MinRecord_1446 {
     }
 
     public int minReorder(int n, int[][] connections) {
-        Queue<Integer> ready = new ArrayDeque<>();
-        ready.add(0);
-        Set<Integer>[] toMap = new HashSet[n];
-        Set<Integer>[] fromMap = new HashSet[n];
-        for (int[] c : connections) {
-            int to = c[1];
-            int from = c[0];
-            if (toMap[to] == null) {
-                toMap[to] = new HashSet<>();
-            }
-            toMap[to].add(from);
-            if (fromMap[from] == null) {
-                fromMap[from] = new HashSet<>();
-            }
-            fromMap[from].add(to);
+        List<int[]>[] path = new ArrayList[n];
+        for (int i = 0; i < path.length; i++) {
+            path[i] = new ArrayList<>();
+        }
+        for (int[] con : connections) {
+            int start = con[0], end = con[1];
+            path[start].add(new int[]{end, 1});
+            path[end].add(new int[]{start, 0});
         }
 
-        int count = 0;
-        while (true) {
-            Integer poll = ready.poll();
-            if (poll == null) {
-                break;
-            }
-            Set<Integer> fromSet = toMap[poll];
-            if (fromSet != null) {
-                remove(fromMap, fromSet, poll);
-                ready.addAll(fromSet);
-            }
-            Set<Integer> toSet = fromMap[poll];
-            if (toSet == null) {
-                continue;
-            }
-            remove(toMap, toSet, poll);
-            count += toSet.size();
-            ready.addAll(toSet);
-        }
-        return count;
+        return dfs(0, -1, path);
     }
 
-    private void remove(Set<Integer>[] map, Set<Integer> cur, int val){
-        for (Integer i : cur) {
-            Set<Integer> curSet = map[i];
-            if (curSet == null) {
+    private int dfs(int cur, int parent, List<int[]>[] path){
+        int ret = 0;
+        for (int[] edge: path[cur]) {
+            if (edge[0] == parent) {
                 continue;
             }
-            curSet.remove(val);
+            ret += edge[1] + dfs(edge[0], cur, path);
         }
+        return ret;
     }
 }
