@@ -10,8 +10,8 @@ public class FutureExample {
 
     /**
      * 类继承结构
-     * FutureTask -> RunnableFuture --> Runnable
-     *                              --> Future
+     * FutureTask(Thread,Callable) -> RunnableFuture --> Runnable
+     *                                               --> Future
      *
      * @param args
      * @throws ExecutionException
