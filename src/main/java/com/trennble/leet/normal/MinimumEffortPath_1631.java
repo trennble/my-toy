@@ -1,8 +1,9 @@
 package com.trennble.leet.normal;
 
-import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.PriorityBlockingQueue;
 
 public class MinimumEffortPath_1631 {
 
@@ -13,15 +14,22 @@ public class MinimumEffortPath_1631 {
         System.out.println(val0);
         int val1 = minimumEffortPath1631.minimumEffortPath(new int[][]{{1, 2, 3}, {3, 8, 4}, {5, 3, 5}});
         System.out.println(val1);
-        int val2 = minimumEffortPath1631.minimumEffortPath(new int[][]{{1,2,1,1,1},{1,2,1,2,1},{1,2,1,2,1},{1,2,1,2,1},{1,1,1,2,1}});
+        int val2 = minimumEffortPath1631.minimumEffortPath(new int[][]{{1, 2, 1, 1, 1}, {1, 2, 1, 2, 1}, {1, 2, 1, 2, 1}, {1, 2, 1, 2, 1}, {1, 1, 1, 2, 1}});
         System.out.println(val2);
 
         int val3 = minimumEffortPath1631.minimumEffortPathBfs(new int[][]{{1, 2, 2}, {3, 8, 2}, {5, 3, 5}});
         System.out.println(val3);
         int val4 = minimumEffortPath1631.minimumEffortPathBfs(new int[][]{{1, 2, 3}, {3, 8, 4}, {5, 3, 5}});
         System.out.println(val4);
-        int val5 = minimumEffortPath1631.minimumEffortPathBfs(new int[][]{{1,2,1,1,1},{1,2,1,2,1},{1,2,1,2,1},{1,2,1,2,1},{1,1,1,2,1}});
+        int val5 = minimumEffortPath1631.minimumEffortPathBfs(new int[][]{{1, 2, 1, 1, 1}, {1, 2, 1, 2, 1}, {1, 2, 1, 2, 1}, {1, 2, 1, 2, 1}, {1, 1, 1, 2, 1}});
         System.out.println(val5);
+
+        int val6 = minimumEffortPath1631.minimumEffortPathPriority(new int[][]{{1, 2, 2}, {3, 8, 2}, {5, 3, 5}});
+        System.out.println(val6);
+        int val7 = minimumEffortPath1631.minimumEffortPathPriority(new int[][]{{1, 2, 3}, {3, 8, 4}, {5, 3, 5}});
+        System.out.println(val7);
+        int val8 = minimumEffortPath1631.minimumEffortPathPriority(new int[][]{{1, 2, 1, 1, 1}, {1, 2, 1, 2, 1}, {1, 2, 1, 2, 1}, {1, 2, 1, 2, 1}, {1, 1, 1, 2, 1}});
+        System.out.println(val8);
     }
 
     int m;
@@ -81,10 +89,10 @@ public class MinimumEffortPath_1631 {
             }
 
             Queue<int[]> queue = new LinkedList<>();
-            queue.add(new int[]{0,0,heights[0][0]});
+            queue.add(new int[]{0, 0, heights[0][0]});
             while (!queue.isEmpty()) {
                 int[] poll = queue.poll();
-                int x = poll[0],y=poll[1],pre = poll[2];
+                int x = poll[0], y = poll[1], pre = poll[2];
                 if (x < 0 || x >= m || y < 0 || y >= n || visited[x][y] == 1 || Math.abs(heights[x][y] - pre) > mid) {
                     continue;
                 }
@@ -99,7 +107,7 @@ public class MinimumEffortPath_1631 {
             }
 
 
-            if (visited[m-1][n-1] == 1) {
+            if (visited[m - 1][n - 1] == 1) {
                 ret = mid;
                 r = mid - 1;
             } else {
@@ -107,6 +115,41 @@ public class MinimumEffortPath_1631 {
             }
         }
         return ret;
+    }
+
+    public int minimumEffortPathPriority(int[][] heights) {
+        int m = heights.length;
+        int n = heights[0].length;
+        int ans = Integer.MIN_VALUE;
+        boolean[][] visited = new boolean[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                visited[i][j] = false;
+            }
+        }
+
+        Queue<int[]> queue = new PriorityBlockingQueue<>(200, Comparator.comparingInt(o -> o[2]));
+        queue.add(new int[]{0, 0, heights[0][0], 0});
+        while (!queue.isEmpty()) {
+            int[] poll = queue.poll();
+            int x = poll[0], y = poll[1], max = poll[3];
+            visited[x][y] = true;
+            int val = heights[x][y];
+            if (x == m - 1 && y == n - 1) {
+                return max;
+            }
+            for (int[] dir : dirs) {
+                int nx = x + dir[0];
+                int ny = y + dir[1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny]) {
+                    int abs = Math.abs(heights[nx][ny] - val);
+                    int div = Math.max(max, abs);
+                    queue.offer(new int[]{nx, ny, abs, div});
+                }
+            }
+        }
+
+        return ans;
     }
 
 }
