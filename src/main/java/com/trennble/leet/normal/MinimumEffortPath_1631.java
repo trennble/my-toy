@@ -2,8 +2,8 @@ package com.trennble.leet.normal;
 
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.concurrent.PriorityBlockingQueue;
 
 public class MinimumEffortPath_1631 {
 
@@ -122,33 +122,38 @@ public class MinimumEffortPath_1631 {
         int n = heights[0].length;
         int ans = Integer.MIN_VALUE;
         boolean[][] visited = new boolean[m][n];
+        int[][] memo = new int[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 visited[i][j] = false;
+                memo[i][j] = Integer.MAX_VALUE;
             }
         }
 
-        Queue<int[]> queue = new PriorityBlockingQueue<>(200, Comparator.comparingInt(o -> o[2]));
-        queue.add(new int[]{0, 0, heights[0][0], 0});
+        Queue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(o -> o[2]));
+        queue.add(new int[]{0, 0, 0});
+        memo[0][0] = 0;
         while (!queue.isEmpty()) {
             int[] poll = queue.poll();
-            int x = poll[0], y = poll[1], max = poll[3];
+            int x = poll[0], y = poll[1];
             visited[x][y] = true;
             int val = heights[x][y];
             if (x == m - 1 && y == n - 1) {
-                return max;
+                return poll[2];
             }
             for (int[] dir : dirs) {
                 int nx = x + dir[0];
                 int ny = y + dir[1];
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny]) {
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
                     int abs = Math.abs(heights[nx][ny] - val);
-                    int div = Math.max(max, abs);
-                    queue.offer(new int[]{nx, ny, abs, div});
+                    int div = Math.max(poll[2], abs);
+                    if (!visited[nx][ny] && div < memo[nx][ny]){
+                        memo[nx][ny] = div;
+                        queue.offer(new int[]{nx, ny, div});
+                    }
                 }
             }
         }
-
         return ans;
     }
 
