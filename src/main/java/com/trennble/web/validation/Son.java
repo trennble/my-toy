@@ -1,7 +1,6 @@
 package com.trennble.web.validation;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -17,6 +16,5 @@ import javax.validation.constraints.NotNull;
 @JsonTypeName(value = "son")
 public class Son extends Father {
     @NotNull
-    @ApiModelProperty("名称")
     private String name;
 }
