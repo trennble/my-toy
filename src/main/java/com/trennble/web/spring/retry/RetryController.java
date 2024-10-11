@@ -26,9 +26,12 @@ public class RetryController {
         return "hello";
     }
 
+    /**
+     * 只有这种方式才会成功重试
+     */
     @GetMapping("serviceRetry")
     public String serviceRetry(){
-        retryService.publicRetryMethod();
+        retryService.publicRetryMethod("hello");
         return "hello";
     }
 

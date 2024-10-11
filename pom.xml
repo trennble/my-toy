@@ -46,16 +46,17 @@
             <artifactId>mybatis-plus-generator</artifactId>
             <version>3.4.0</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.4.0</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>5.8.17</version>
         </dependency>
+        <!--自动生成使用-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
