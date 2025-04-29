@@ -11,6 +11,7 @@ import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.retry.backoff.FixedBackOffPolicy;
 import org.springframework.retry.interceptor.RetryInterceptorBuilder;
 import org.springframework.retry.interceptor.RetryOperationsInterceptor;
+import org.springframework.retry.listener.RetryListenerSupport;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
 
@@ -36,21 +37,12 @@ public class RetryConfig {
         RetryTemplate retryTemplate = new RetryTemplate ();
         retryTemplate.setRetryPolicy(retryPolicy);
         retryTemplate.setBackOffPolicy(backOffPolicy);
-        retryTemplate.registerListener(new RetryListener() {
-            @Override
-            public <T, E extends Throwable> boolean open(RetryContext context, RetryCallback<T, E> callback) {
-                log.info("open context");
-                return true;
-            }
-
+        retryTemplate.registerListener(new RetryListenerSupport() {
             @Override
             public <T, E extends Throwable> void close(RetryContext context, RetryCallback<T, E> callback, Throwable throwable) {
-                log.info("close context");
-            }
-
-            @Override
-            public <T, E extends Throwable> void onError(RetryContext context, RetryCallback<T, E> callback, Throwable throwable) {
-                log.info("onError context");
+                if (throwable!=null) {
+                    log.error("方法重试失败请关注 {}", context.getAttribute(RetryContext.NAME), throwable);
+                }
             }
         });
 

@@ -1,6 +1,7 @@
 package com.trennble.web.spring.retry;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +31,8 @@ public class RetryController {
      * 只有这种方式才会成功重试
      */
     @GetMapping("serviceRetry")
-    public String serviceRetry(){
-        retryService.publicRetryMethod("hello");
+    public String serviceRetry(@RequestParam Integer passAt){
+        retryService.publicRetryMethod(passAt);
         return "hello";
     }
 
